@@ -48,4 +48,14 @@ I (2241) PARLIOSDR_USB: PARLIO: 5.00 MSPS, 8 Bit
 I (2251) PARLIOSDR_USB: USB High-Speed SDR gestartet (Bulk Endpoint 0x01)
 ```
 
-Please select the correct USB port for USB2.0 / 480 MBit on your board (usually this is only one USB port - on the Waveshare ESP32-P4 MODULE DEV-KIT it is the lower left USB port directly next to the Ethernet port).  
+Please select the correct USB port for USB2.0 / 480 MBit on your board (usually this is only one USB port - on the Waveshare ESP32-P4 MODULE DEV-KIT it is the lower left USB port directly next to the Ethernet port). When using a USB-A to USB-A cable, and depending on the design of the development kit, the possibility of USB voltage backfeed must be considered. Therefore, it is strongly recommended to use a DC blocker or USB isolator. These should, of course, be suitable for data rates up to 480 Mbit/s.
+
+On the PC side, the parlioSDRUSB shows:
+
+```console
+lsusb
+...
+Bus 009 Device 008: ID 303a:4000 RADIOLAB81 ESP32-PARLIOSDR-HS
+...
+```
+
