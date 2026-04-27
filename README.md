@@ -58,4 +58,21 @@ lsusb
 Bus 009 Device 008: ID 303a:4000 RADIOLAB81 ESP32-PARLIOSDR-HS
 ...
 ```
+To enable applications such as GNURadio, AMWaveSynth, COHIRADIA Streamer, etc. to continue to use TCP/IP, we have implemented a TCP-to-USB bridge.
+
+To build the bridge, you need to install libusb and run these commands:
+
+```console
+sudo apt install libusb-1.0-0-dev
+gcc bridge.c -o usb_bridge -lusb-1.0 -lpthread
+```
+Start the TCP2USB bridge (possibly with root privileges) with :
+
+```console
+sudo ./usb_bridge 
+USB: ESP32-P4 High-Speed verbunden.
+DATA: Warte auf SDR-Software auf Port 1234...
+Bridge läuft. Daten: TCP 1234 -> USB Bulk. Control: TCP 5000 -> USB Control.
+```
+This program will redirect or tunnel both, the RF data port 1234 and the control port 5000 (for setting the bit width and sample rate) to USB.
 
