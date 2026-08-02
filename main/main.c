@@ -199,7 +199,7 @@ bool tud_vendor_control_xfer_cb(uint8_t rhport, uint8_t stage, tusb_control_requ
            current_rate = val;
            update_parlio_settings(current_rate, current_width);
        }
-    return tud_control_status(rhport, request);
+       return tud_control_status(rhport, request);
     } 
     else if (request->bRequest == 0x02) { // Width
         int w = (int)request->wValue;
