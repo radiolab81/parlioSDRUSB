@@ -194,13 +194,19 @@ bool tud_vendor_control_xfer_cb(uint8_t rhport, uint8_t stage, tusb_control_requ
     if (stage != CONTROL_STAGE_SETUP) return true;
 
     if (request->bRequest == 0x01) { // Rate
-        current_rate = (float)request->wValue / 10.0f;
-        update_parlio_settings(current_rate, current_width);
-        return tud_control_status(rhport, request);
+       float val = (float)request->wValue / 10.0f;
+       if (val > 0.1f && val <= 40.0f) {
+           current_rate = val;
+           update_parlio_settings(current_rate, current_width);
+       }
+    return tud_control_status(rhport, request);
     } 
     else if (request->bRequest == 0x02) { // Width
-        current_width = request->wValue;
-        update_parlio_settings(current_rate, current_width);
+        int w = (int)request->wValue;
+        if (w == 8 || w == 16) {
+            current_width = w;
+            update_parlio_settings(current_rate, current_width);
+        }
         return tud_control_status(rhport, request);
     }
     return false; 
