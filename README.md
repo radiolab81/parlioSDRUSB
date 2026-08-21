@@ -76,3 +76,23 @@ Bridge läuft. Daten: TCP 1234 -> USB Bulk. Control: TCP 5000 -> USB Control.
 ```
 This program will redirect or tunnel both, the RF data port 1234 and the control port 5000 (for setting the bit width and sample rate) to USB.
 
+## ⚠️ Chip Revision & Build Compatibility Notice
+
+This firmware was built several months ago against **ESP32-P4 Engineering Sample**
+silicon. The included `sdkconfig` pins the build to early chip revisions.
+
+Since then, several newer mass-production ESP32-P4 revisions (up to v3.x) have
+shipped. Revisions ≥ v3.0 are **not binary-compatible** with this build (over 50
+hardware/register-level changes across ISP, CPU, L2MEM, MSPI, security modules).
+A HEX image built for one side of this boundary will not boot on the other.
+
+**If your board uses a recent chip revision, please rebuild from source**
+with ESP-IDF 6.1 (which this project already uses — see `idf.py build` above)
+rather than flashing a pre-built binary, and verify/adjust the chip revision range
+and CPU frequency via `idf.py menuconfig` → **Component config → Hardware Settings**
+and **→ ESP System Settings** for your actual hardware.
+
+This also applies to the TCP↔USB `bridge.c` throughput path: since this project is
+explicitly optimized for maximum USB 2.0 HS bandwidth, any future silicon or USB
+library improvements (as noted in the project description) should be re-validated
+against your specific board revision before relying on peak data rates.
